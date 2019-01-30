@@ -1,0 +1,213 @@
+en:
+  events:
+    catalogue:
+      'Events::EmailConfirmationRequired':
+        external_subject:
+          for_customer: Please confirm your email address
+        external_message:
+          for_customer: >-
+            You have just signed up as {{ target.name }} user for LBMC's payment
+            portal. Please click the button below to confirm that this is your
+            email address.
+
+            Thank you for your business.
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::PreviewAuthorizationRequested':
+        external_subject:
+          for_customer: Access Confirmation
+        external_message:
+          for_customer: >
+            Hello! You have just attempted to visit LBMC's Payment Portal from a
+            different computer or location.
+
+
+            Please click the button below to authorize your computer and enter
+            the portal.
+
+
+            If that wasn't you, please contact LBMCpay@lbmc.com for assistance.
+
+
+            Thank you for your business.
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::PaymentFailed':
+        external_subject:
+          for_customer: >-
+            Payment returned{% if target.transaction_state %}
+            ({{target.transaction_state}}){% endif %}
+        external_message:
+          for_customer: >-
+            Your payment of {{ target.amount | format_currency_for_customer:
+            target.customer.multi_currency? }} to {{ target.sender.name }} from
+            {{ target.display_payment_method }} on {{ target.date |
+            date:'%m-%d-%Y' }} was returned{% if target.transaction_state %}
+            ({{target.transaction_state}}){% endif %}{% if
+            target.transaction_reason_for_customer %} because
+            {{target.transaction_reason_for_customer}}{% endif %}.  Confirmation
+            number is {{ target.identifier }}.
+
+
+            Please click below to use our customer portal to make a replacement
+            payment.
+
+
+            Thank you for your business.
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::CustomerInvited':
+        external_subject:
+          for_customer: Welcome to LBMC's Payment Portal!
+        external_message:
+          for_customer: >-
+            Hello{% unless target.first_name == blank %} {{ target.first_name
+            }}{% endunless %},
+
+
+            We are excited to introduce you to our online invoicing and payment
+            service.  We are pleased to offer this site to {{ target.name }} and
+            all of our valued customers to make it easy and convenient to do
+            business with us.
+
+
+            LBMC's payment portal is secure and easy-to-use, and it gives you
+            24/7 access to your invoices, flexible options for making payments,
+            and handy tools to connect with us if you have questions.
+
+
+            You will start seeing emails from ARC when there is something you
+            need to know.  Just click on any of the links in these emails to
+            visit the site and take advantage of everything ARC has to offer.
+            Curious to see it right now? Just click {{ 'here' |
+            link_to_payable_invoices_url: target.sender.identifier }}.
+
+
+            Want to know more? Click <a href='https://www.versapay.com'
+            name='Versapay HomePage'>here</a> for additional details.
+
+
+            Thanks for your business and we hope you enjoy using the LBMC
+            Payment Portal.
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Notifications::InvoiceDue':
+        external_subject:
+          for_customer: >-
+            Invoice #{{ target.display_number }} is due in {{ offset }} {{
+            offset | offset_unit: 'day', 'days' }}
+        external_message:
+          for_customer: >-
+            Invoice #{{ target.display_number | link_to: target.payables_url }}
+            for {{ target.customer_name }} with balance {{ target.owing |
+            format_currency_for_customer: target.customer.multi_currency? }} is
+            due in {{ offset }} {{ offset | offset_unit: 'day', 'days' }}. Click
+            {{ 'here' | link_to: target.pay_now_url }} to pay.
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::CustomerAccessGranted':
+        external_subject:
+          for_customer: Welcome to LBMC's Payment Portal!
+        external_message:
+          for_customer: >
+            Hello {{ extended_attributes.granted.first_name }},
+
+
+            We're excited to introduce you to our online invoicing and payment
+            service.  We are pleased to offer this site to {{ target.name }} and
+            all of our valued customers to make it easy and convenient to do
+            business with us.
+
+
+            We understand you've already been using this invoicing and payment
+            service for other companies, so getting to know our site will be a
+            snap.
+
+
+            Thanks for your business and we hope you enjoy using LBMC's Payment
+            Portal.
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::CustomerAccessInvitation':
+        external_subject:
+          for_customer: Welcome to LBMC's Payment Portal!
+        external_message:
+          for_customer: >
+            Hello {{ target.contact.first_name }},
+
+
+            We are excited to introduce you to our online invoicing and payment
+            service.  We are pleased to offer this site to our customers to make
+            it easy and convenient to business with us.
+
+
+            LBMC's Payment Portal is secure and easy-to-use, and it gives you
+            24/7 access to your invoices, flexible options for making payments,
+            and handy tools to connect with us if you have questions.
+
+
+            You will start seeing emails from the service when there is
+            something you need to know.  Just click on any of the links in these
+            emails to visit the site and take advantage of everything the
+            service has to offer.
+
+
+            Some of your colleagues at {{customer.name}} are already using this
+            application. Just click {{ 'here' | link_to_payable_invoices_url:
+            sender.identifier }} to join them.
+
+
+            Want to know more?  Click <a href='https://www.versapay.com/'
+            name='VersaPay HomePage'>here</a> for additional details.
+
+
+            Thanks for your business and we hope you enjoy using the portal.
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Events::CustomerInvitationSentBySupplier':
+        external_subject:
+          for_customer: >-
+            {{ target.contact.name }} was {% if target.contact.activated?
+            %}activated for {% else %}invited to {% endif %}{{ customer.name }}
+        external_message:
+          for_customer: >
+            {{ target.contact.name }} was {% if target.contact.activated?
+            %}activated for {% else %}invited to {% endif %}{{ customer.name }}
+            by {% if user %}{{ user.name }} {% else %} {{ target.user.name }} {%
+            endif %}({{ customer.sender.name }}) on {{ target.updated_at | date:
+            '%b %d, %Y %H:%M' }}
+
+
+            {% if target.contact.activated? %}Please note that an invitation
+            email was not sent, but {{ target.contact.name }} will start to
+            receive notifications from the portal, and will be able to sign up
+            from any of those notifications.{% endif %}
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
+      'Notifications::MonthlyStatement':
+        external_subject:
+          for_customer: >-
+            Statement for {{created_at | date: '%B %Y'}} from
+            {{target.sender.name}}
+        external_message:
+          for_customer: >-
+            The following is a summary of your account with
+            {{target.sender.name}} as of {{created_at | date: '%B %d, %Y' }}
+
+
+
+            Need help?  Contact LBMCpay@lbmc.com
